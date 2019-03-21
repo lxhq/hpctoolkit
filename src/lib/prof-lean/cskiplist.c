@@ -286,8 +286,8 @@ static csklnode_t *
 cskiplist_find(val_cmp compare, cskiplist_t *cskl, void* value)
 {
   // Acquire lock before reading:
-  pfq_rwlock_read_lock(&cskl->lock);
-
+  // pfq_rwlock_read_lock(&cskl->lock);
+  int pos = BRAVO_rwlock_read_lock(&cskl->BRAVO_rwlock);
   int     max_height  = cskl->max_height;
   csklnode_t *preds[max_height];
   csklnode_t *succs[max_height];
@@ -301,8 +301,8 @@ cskiplist_find(val_cmp compare, cskiplist_t *cskl, void* value)
   }
 
   // Release lock after reading:
-  pfq_rwlock_read_unlock(&cskl->lock);
-
+  // pfq_rwlock_read_unlock(&cskl->lock);
+  BRAVO_rwlock_read_unlock(&cskl->BRAVO_rwlock, pos);
   return node;
 }
 
@@ -348,8 +348,8 @@ cskl_del_bulk_unsynch(val_cmp cmpfn, cskiplist_t *cskl, void *lo, void *hi, mem_
 
   // Acquire lock before writing:
   pfq_rwlock_node_t me;
-  pfq_rwlock_write_lock(&cskl->lock, &me);
-
+  // pfq_rwlock_write_lock(&cskl->lock, &me);
+  BRAVO_rwlock_write_lock(&cskl->BRAVO_rwlock, &me);
   //----------------------------------------------------------------------------
   // Look for a node matching low
   //----------------------------------------------------------------------------
@@ -396,8 +396,8 @@ cskl_del_bulk_unsynch(val_cmp cmpfn, cskiplist_t *cskl, void *lo, void *hi, mem_
   }
 
   // Release lock after writing:
-  pfq_rwlock_write_unlock(&cskl->lock, &me);
-
+  // pfq_rwlock_write_unlock(&cskl->lock, &me);
+  BRAVO_rwlock_write_unlock(&cskl->BRAVO_rwlock, &me);
   return first != last;
 }
 
@@ -450,8 +450,8 @@ cskl_new(
   cskl->max_height = max_height;
   cskl->compare = compare;
   cskl->inrange = inrange;
-  pfq_rwlock_init(&cskl->lock);
-
+  // pfq_rwlock_init(&cskl->lock);
+  BRAVO_rwlock_init(&cskl->BRAVO_rwlock, &cskl->lock);
   // create sentinel nodes
   csklnode_t *left = cskl->left_sentinel   = csklnode_alloc_node(max_height, m_alloc);
   csklnode_t *right = cskl->right_sentinel = csklnode_alloc_node(0, m_alloc);
@@ -490,10 +490,10 @@ cskl_insert(cskiplist_t *cskl, void *value,
 
   // allocate my node
   csklnode_t *new_node = csklnode_malloc(value, max_height, m_alloc);
-
-  for (node = NULL; node == NULL; pfq_rwlock_read_unlock(&cskl->lock)) {
+  int pos = -1;
+  for (node = NULL; node == NULL; BRAVO_rwlock_read_unlock(&cskl->BRAVO_rwlock, pos)) {
 	// Acquire lock before reading:
-	pfq_rwlock_read_lock(&cskl->lock);
+	pos = BRAVO_rwlock_read_lock(&cskl->BRAVO_rwlock);
 
 	int found_layer= cskiplist_find_helper(cskl->compare,
 		max_height, cskl->left_sentinel, value, preds, succs,
@@ -706,8 +706,8 @@ void
 cskl_tostr(cskiplist_t *cskl, cskl_node_tostr node_tostr, char csklstr[], int max_cskl_str_len)
 {
   // Acquire lock before reading the cskiplist to build its string representation:
-  pfq_rwlock_read_lock(&cskl->lock);
-
+  //pfq_rwlock_read_lock(&cskl->lock);
+  int pos = BRAVO_rwlock_read_lock(&cskl->BRAVO_rwlock);
   int max_height = cskl->max_height;
   csklnode_t *node = cskl->left_sentinel;
   csklnode_t *right = cskl->right_sentinel;
@@ -741,8 +741,8 @@ cskl_tostr(cskiplist_t *cskl, cskl_node_tostr node_tostr, char csklstr[], int ma
   strncat(csklstr, "\n", max_cskl_str_len - str_len - 1);
 
   // Release lock after building the string representation:
-  pfq_rwlock_read_unlock(&cskl->lock);
-
+  // pfq_rwlock_read_unlock(&cskl->lock);
+  BRAVO_rwlock_read_unlock(&cskl->BRAVO_rwlock, pos);
 }
 
 static void
@@ -770,7 +770,8 @@ cskl_links_dump(csklnode_t *node, int max_height)
 void
 cskl_dump(cskiplist_t *cskl, cskl_node_tostr node_tostr)
 {
-  pfq_rwlock_read_lock(&cskl->lock);
+  //pfq_rwlock_read_lock(&cskl->lock);
+  int pos = BRAVO_rwlock_read_lock(&cskl->BRAVO_rwlock);
 
   int max_height = cskl->max_height;
   csklnode_t *node = cskl->left_sentinel;
@@ -790,7 +791,8 @@ cskl_dump(cskiplist_t *cskl, cskl_node_tostr node_tostr)
   }
   printf("\n");
 
-  pfq_rwlock_read_unlock(&cskl->lock);
+  // pfq_rwlock_read_unlock(&cskl->lock);
+  BRAVO_rwlock_read_unlock(&cskl->BRAVO_rwlock, pos);
 }
 
 
@@ -818,7 +820,8 @@ cskl_links_print(csklnode_t *node, int max_height)
 void
 cskl_print(cskiplist_t *cskl, cskl_node_tostr node_tostr)
 {
-  pfq_rwlock_read_lock(&cskl->lock);
+  // pfq_rwlock_read_lock(&cskl->lock);
+  int pos = BRAVO_rwlock_read_lock(&cskl->BRAVO_rwlock);
 
   int max_height = cskl->max_height;
   csklnode_t *node;
@@ -835,7 +838,8 @@ cskl_print(cskiplist_t *cskl, cskl_node_tostr node_tostr)
   }
   printf("\n");
 
-  pfq_rwlock_read_unlock(&cskl->lock);
+  // pfq_rwlock_read_unlock(&cskl->lock);
+  BRAVO_rwlock_read_unlock(&cskl->BRAVO_rwlock, pos);
 }
 
 

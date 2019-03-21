@@ -60,6 +60,7 @@
 
 #include "mcs-lock.h"
 #include "pfq-rwlock.h"
+#include "BRAVOLock.h"
 
 typedef struct csklnode_s {
   void *val;
@@ -78,6 +79,7 @@ typedef struct cskiplist_s {
   val_cmp compare;
   val_cmp inrange;
   pfq_rwlock_t lock;
+  BRAVO_rwlock_t BRAVO_rwlock;
 } cskiplist_t;
 
 #endif /* __CSKIPLIST_DEFS_H__ */

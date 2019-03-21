@@ -84,6 +84,7 @@ MYSOURCES = \
 	atomic-op.h atomic-op.i \
 	mcs-lock.h mcs-lock.c \
 	pfq-rwlock.h pfq-rwlock.c \
+	BRAVOLock.h BRAVOLock.c \
 	spinlock.h spinlock.c \
         urand.h urand.c \
 	usec_time.h usec_time.c \
