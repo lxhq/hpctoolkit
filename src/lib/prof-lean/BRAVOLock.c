@@ -5,7 +5,7 @@
 #include <time.h>
 #include "BRAVOLock.h"
 
-const int SIZE = 1024;
+static const int SIZE = 1024;
 BRAVO_rwlock_t *VisibleReaders[1024];
 const int N = 9;
 
