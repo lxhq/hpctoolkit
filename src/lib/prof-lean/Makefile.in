@@ -144,8 +144,8 @@ am__objects_1 = libHPCprof_lean_la-hpcrun-fmt.lo \
 	libHPCprof_lean_la-hpcio-buffer.lo \
 	libHPCprof_lean_la-mcs-lock.lo \
 	libHPCprof_lean_la-pfq-rwlock.lo \
-	libHPCprof_lean_la-spinlock.lo libHPCprof_lean_la-urand.lo \
-	libHPCprof_lean_la-usec_time.lo \
+	libHPCprof_lean_la-BRAVOLock.lo libHPCprof_lean_la-spinlock.lo \
+	libHPCprof_lean_la-urand.lo libHPCprof_lean_la-usec_time.lo \
 	libHPCprof_lean_la-BalancedTree.lo \
 	libHPCprof_lean_la-placeholders.lo \
 	lush/libHPCprof_lean_la-lush-support.lo \
@@ -517,6 +517,7 @@ MYSOURCES = \
 	atomic-op.h atomic-op.i \
 	mcs-lock.h mcs-lock.c \
 	pfq-rwlock.h pfq-rwlock.c \
+	BRAVOLock.h BRAVOLock.c \
 	spinlock.h spinlock.c \
         urand.h urand.c \
 	usec_time.h usec_time.c \
@@ -634,6 +635,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libHPCprof_lean_la-BRAVOLock.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libHPCprof_lean_la-BalancedTree.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libHPCprof_lean_la-binarytree.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libHPCprof_lean_la-cskiplist.Plo@am__quote@
@@ -716,6 +718,13 @@ libHPCprof_lean_la-pfq-rwlock.lo: pfq-rwlock.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pfq-rwlock.c' object='libHPCprof_lean_la-pfq-rwlock.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libHPCprof_lean_la_CFLAGS) $(CFLAGS) -c -o libHPCprof_lean_la-pfq-rwlock.lo `test -f 'pfq-rwlock.c' || echo '$(srcdir)/'`pfq-rwlock.c
+
+libHPCprof_lean_la-BRAVOLock.lo: BRAVOLock.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libHPCprof_lean_la_CFLAGS) $(CFLAGS) -MT libHPCprof_lean_la-BRAVOLock.lo -MD -MP -MF $(DEPDIR)/libHPCprof_lean_la-BRAVOLock.Tpo -c -o libHPCprof_lean_la-BRAVOLock.lo `test -f 'BRAVOLock.c' || echo '$(srcdir)/'`BRAVOLock.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libHPCprof_lean_la-BRAVOLock.Tpo $(DEPDIR)/libHPCprof_lean_la-BRAVOLock.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='BRAVOLock.c' object='libHPCprof_lean_la-BRAVOLock.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libHPCprof_lean_la_CFLAGS) $(CFLAGS) -c -o libHPCprof_lean_la-BRAVOLock.lo `test -f 'BRAVOLock.c' || echo '$(srcdir)/'`BRAVOLock.c
 
 libHPCprof_lean_la-spinlock.lo: spinlock.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libHPCprof_lean_la_CFLAGS) $(CFLAGS) -MT libHPCprof_lean_la-spinlock.lo -MD -MP -MF $(DEPDIR)/libHPCprof_lean_la-spinlock.Tpo -c -o libHPCprof_lean_la-spinlock.lo `test -f 'spinlock.c' || echo '$(srcdir)/'`spinlock.c
