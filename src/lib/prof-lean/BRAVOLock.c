@@ -12,8 +12,8 @@ const int N = 9;
 int calhash(BRAVO_rwlock_t *l) {
     unsigned int a = (unsigned int)pthread_self();
     unsigned int b = (unsigned int)l;
-    //unsigned int c = (a << 16) + (b >> 16);
-    int res = a % SIZE;
+    unsigned int c = (a << 16) + (b >> 16);
+    int res = c % SIZE;
     //printf("%d, %d\n", a, res);
     return res;
 }
